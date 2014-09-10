@@ -19,18 +19,19 @@ echo "Begin scan sfewfesfs virus"
 i=0
 for dir in $dirs; do
     for file in $files; do
-        for f in `ls -alh ${dir}${file}`; do
-            if [[ -x $f ]];
+        for f in `ls -a ${dir}${file} 2>/dev/null`; do
+            if [ -a $f ];
             then
+                chattr -i $f
                 echo "virus file $f exist, will be remove!"
-            rm -rf $f
-            i=i+1
-        fi
+                rm -rf $f
+                i=$[$i+1]
+            fi
         done;
     done;
 done;
 
-if [[ $i -gt 0 ]];
+if [ $i -gt 0 ];
 then
     echo "Delete $i virus files. You need reboot your server now!"
 else
